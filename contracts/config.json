@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "deployAliases": {
+    "devnet": {
+      "networkId": "testnet",
+      "url": "https://api.minascan.io/node/devnet/v1/graphql",
+      "keyPath": "keys/devnet.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh.json",
+      "feepayerAlias": "eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh",
+      "fee": "0.1",
+      "smartContract": "Square"
+    },
+    "add": {
+      "networkId": "testnet",
+      "url": "https://api.minascan.io/node/devnet/v1/graphql",
+      "keyPath": "keys/add.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh.json",
+      "feepayerAlias": "eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh",
+      "fee": "0.1",
+      "smartContract": "Add"
+    },
+    "add-zeko": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/add-zeko.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh.json",
+      "feepayerAlias": "eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh",
+      "fee": "0.1",
+      "smartContract": "Add"
+    }
+  }
+}
