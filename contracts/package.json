@@ -21,11 +21,17 @@
     "test": "npm run build && find build/src -name '*.test.js' -exec node --test {} \\;",
     "testw": "npm run build && find build/src -name '*.test.js' -exec node --test --watch {} \\;",
     "lint": "npx eslint src/* --fix",
-    "clear-cache": "npx rimraf cache/* !cache/README.md && npx rimraf cache.json && echo \"Cache cleared successfully!\""
+    "clear:cache": "npx rimraf cache/* !cache/README.md && npx rimraf cache.json && echo \"Cache cleared successfully!\"",
+    "create:cache": "npm run build && npx tsx ./scripts/generate-cache.ts",
+    "copy:cache": "npm run build && npx tsx ./scripts/copy-cache-to-ui.ts",
+    "deploy:devnet": "npm run build && node build/src/deploy.js devnet",
+    "deploy:mainnet": "npm run build && node build/src/deploy.js mainnet",
+    "deploy:zeko": "npm run build && node build/src/deploy.js zeko"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.2",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
@@ -42,6 +48,8 @@
     "node": ">=18.14.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.2",
     "o1js": "^2.*"
   }
 }

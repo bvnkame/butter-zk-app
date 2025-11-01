@@ -27,6 +27,64 @@
       "feepayerAlias": "eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh",
       "fee": "0.1",
       "smartContract": "Add"
+    },
+    "jwt": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/jwt.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh.json",
+      "feepayerAlias": "eke5amqhaqxrwsmcsshzp7dhuezs46mvtmllfnafurkz528nb8xh",
+      "fee": "0.1",
+      "smartContract": "JWTVerifyContract"
+    },
+    "jwt-zeko": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/jwt-zeko.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/nam-wallet.json",
+      "feepayerAlias": "nam-wallet",
+      "fee": "0.1",
+      "smartContract": "JWTVerifyContract"
+    },
+    "jwt-zeko2": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/jwt-zeko2.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/nam-wallet.json",
+      "feepayerAlias": "nam-wallet",
+      "fee": "0.1"
+    },
+    "jwt-zeko3": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/jwt-zeko3.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/nam-wallet.json",
+      "feepayerAlias": "nam-wallet",
+      "fee": "0.1"
+    },
+    "jwt-zeko4": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/jwt-zeko4.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/nam-wallet.json",
+      "feepayerAlias": "nam-wallet",
+      "fee": "0.2"
+    },
+    "devnet-jwt": {
+      "networkId": "testnet",
+      "url": "https://api.minascan.io/node/devnet/v1/graphql",
+      "keyPath": "keys/devnet-jwt.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/nam-wallet.json",
+      "feepayerAlias": "nam-wallet",
+      "fee": "0.2"
+    },
+    "jwt-zeko-new": {
+      "networkId": "testnet",
+      "url": "https://devnet.zeko.io/graphql",
+      "keyPath": "keys/jwt-zeko-new.json",
+      "feepayerKeyPath": "/Users/nambui/.cache/zkapp-cli/keys/nam-wallet.json",
+      "feepayerAlias": "nam-wallet",
+      "fee": "0.11"
     }
   }
 }

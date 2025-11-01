@@ -5,16 +5,18 @@ import GradientBG from '../components/GradientBG';
 import styles from '../styles/Home.module.css';
 import './reactCOIServiceWorker';
 import ZkappWorkerClient from './ZkappWorkerClient';
+import firebase from 'firebase/app';
+import App from './App';
 
-let transactionFee = 0.1;
-const ZKAPP_ADDRESS = 'B62qrp9XMN5ukKh1e7tXirWUMQRs7Myq9WDUx4YNNWLFFoNCbbhTCiS';
+let transactionFee = 0.2;
+const ZKAPP_ADDRESS = 'B62qkeutRVh2ALVy1LedMbrMnRnMJ7rWf41u2nxynYoTb5rqETZe8zG';
 
 export default function Home() {
   const [zkappWorkerClient, setZkappWorkerClient] = useState<null | ZkappWorkerClient>(null);
   const [hasWallet, setHasWallet] = useState<null | boolean>(null);
   const [hasBeenSetup, setHasBeenSetup] = useState(false);
   const [accountExists, setAccountExists] = useState(false);
-  const [currentNum, setCurrentNum] = useState<null | Field>(null);
+  const [currentUpdate, setCurrentUpdate] = useState<null | Field>(null);
   const [publicKeyBase58, setPublicKeyBase58] = useState('');
   const [creatingTransaction, setCreatingTransaction] = useState(false);
   const [displayText, setDisplayText] = useState('');
@@ -60,22 +62,28 @@ export default function Home() {
 
           await zkappWorkerClient.loadContract();
 
+
+          setHasBeenSetup(true);
+          setHasWallet(true);
+          setDisplayText('');
+
           displayStep('Compiling zkApp...');
           await zkappWorkerClient.compileContract();
           displayStep('zkApp compiled');
 
+
+          console.log('Initializing zkApp instance...', ZKAPP_ADDRESS);
           await zkappWorkerClient.initZkappInstance(ZKAPP_ADDRESS);
 
           displayStep('Getting zkApp state...');
           await zkappWorkerClient.fetchAccount(ZKAPP_ADDRESS);
-          const currentNum = await zkappWorkerClient.getNum();
-          setCurrentNum(currentNum);
-          console.log(`Current state in zkApp: ${currentNum}`);
-
-          
           setHasBeenSetup(true);
           setHasWallet(true);
           setDisplayText('');
+
+          // const currentNum = await zkappWorkerClient.getNum();
+          // setCurrentNum(currentNum);
+          // console.log(`Current state in zkApp: ${currentNum}`);
           
         }
       } catch (error: any) {
@@ -118,35 +126,43 @@ export default function Home() {
   // Send a transaction
 
   const onSendTransaction = async () => {
-    setCreatingTransaction(true);
-    displayStep('Creating a transaction...');
-   
-    console.log('publicKeyBase58 sending to worker', publicKeyBase58);
-    await zkappWorkerClient!.fetchAccount(publicKeyBase58);
+    try {
+      setCreatingTransaction(true);
+      displayStep('Creating a transaction...');
+    
+      console.log('publicKeyBase58 sending to worker', publicKeyBase58);
+      await zkappWorkerClient!.fetchAccount(publicKeyBase58);
 
-    await zkappWorkerClient!.createUpdateTransaction();
+      await zkappWorkerClient!.createUpdateTransaction();
 
-    displayStep('Creating proof...');
-    await zkappWorkerClient!.proveUpdateTransaction();
+      displayStep('Creating proof...');
+      console.time('⏱️ Proving transaction...');
+      await zkappWorkerClient!.proveUpdateTransaction();
+      console.timeEnd('⏱️ Proving transaction...');
 
-    displayStep('Requesting send transaction...');
-    const transactionJSON = await zkappWorkerClient!.getTransactionJSON();
+      displayStep('Requesting send transaction...');
+      const transactionJSON = await zkappWorkerClient!.getTransactionJSON();
 
-    displayStep('Getting transaction JSON...');
-    const { hash } = await (window as any).mina.sendTransaction({
-      transaction: transactionJSON,
-      feePayer: {
-        fee: transactionFee,
-        memo: '',
-      },
-    });
+      displayStep('Getting transaction JSON...');
+      const { hash } = await (window as any).mina.sendTransaction({
+        transaction: transactionJSON,
+        feePayer: {
+          fee: transactionFee,
+          memo: '',
+        },
+      });
 
-    // const transactionLink = `https://minascan.io/devnet/tx/${hash}`;
-    const transactionLink = `https://zekoscan.io/testnet/tx/${hash}`;
-    setTransactionLink(transactionLink);
-    setDisplayText(transactionLink);
+      // const transactionLink = `https://minascan.io/devnet/tx/${hash}`;
+      const transactionLink = `https://zekoscan.io/testnet/tx/${hash}`;
+      setTransactionLink(transactionLink);
+      setDisplayText(transactionLink);
 
-    setCreatingTransaction(true);
+      setCreatingTransaction(true);
+    } catch (error: any) {
+      displayStep(`Error sending transaction: ${error.message}`);
+    } finally {
+      setCreatingTransaction(false);
+    }
   };
 
   // -------------------------------------------------------
@@ -156,9 +172,9 @@ export default function Home() {
     try {
       displayStep('Getting zkApp state...');
       await zkappWorkerClient!.fetchAccount(ZKAPP_ADDRESS);
-      const currentNum = await zkappWorkerClient!.getNum();
-      setCurrentNum(currentNum);
-      console.log(`Current state in zkApp: ${currentNum}`);
+      const currentUpdate = await zkappWorkerClient!.getCurrentUpdate();
+      setCurrentUpdate(currentUpdate);
+      console.log(`Current state in zkApp: ${currentUpdate}`);
       setDisplayText('');
     } catch (error: any) {
       displayStep(`Error refreshing state: ${error.message}`);
@@ -223,7 +239,7 @@ export default function Home() {
     mainContent = (
       <div style={{ justifyContent: 'center', alignItems: 'center' }}>
         <div className={styles.center} style={{ padding: 0 }}>
-          Current state in zkApp: {currentNum?.toString()}{' '}
+          Current state in zkApp: {currentUpdate?.toString()}{' '}
         </div>
         <button
           className={styles.card}
@@ -241,13 +257,11 @@ export default function Home() {
 
   return (
     <GradientBG>
-      <div className={styles.main} style={{ padding: 0 }}>
-        <div className={styles.center} style={{ padding: 0 }}>
-          {setup}
-          {accountDoesNotExist}
-          {mainContent}
-        </div>
+      <div style={{position: 'fixed', bottom: 0, fontSize: 12, color: "white", zIndex: 10, textAlign: 'center', width: '100%'}}>
+        {setup}
+        {accountDoesNotExist}
       </div>
+      <App />
     </GradientBG>
   );
 }

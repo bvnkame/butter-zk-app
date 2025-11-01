@@ -34,8 +34,8 @@ export default class ZkappWorkerClient {
     return this.remoteApi.initZkappInstance(publicKeyBase58);
   }
 
-  async getNum(): Promise<Field> {
-    const result = await this.remoteApi.getNum();
+  async getCurrentUpdate(): Promise<Field> {
+    const result = await this.remoteApi.getCurrentUpdate();
     return Field.fromJSON(JSON.parse(result as string));
   }
 

@@ -1,10 +1,9 @@
 import { Cache } from 'o1js';
 import fs from 'fs/promises';
 
-// @ts-expect-error - These imports will resolve in the generated project after the contract is built. Remove these comments in your project.
-const { Add } = await import('../build/src/Add.js');
-// @ts-expect-error - These imports will resolve in the generated project after the ZkProgram is built. Remove these comments in your project.
-const { AddZkProgram } = await import('../build/src/AddZkProgram.js');
+// const { AddZkProgram } = await import('../contracts/build/src/AddZkProgram.js');
+const { JWTVerifyContract } = await import('../contracts/build/src/JWTVerifyContract.js');
+const { JWTProofProgram } = await import('../contracts/build/src/JWTProof.js');
 
 const cache_directory = 'cache';
 
@@ -13,9 +12,13 @@ const cache_directory = 'cache';
 const cache: Cache = Cache.FileSystem(cache_directory);
 
 // ZkProgram cache in the browser is currently not fully supported.
-await AddZkProgram.compile();
+// await AddZkProgram.compile();
 // Compile the smart contract with the cache enabled
-await Add.compile({ cache });
+// await Add.compile({ cache });
+// Compile the ZkProgram with the cache enabled
+
+await JWTProofProgram.compile({ cache });
+await JWTVerifyContract.compile({ cache });
 
 type CacheList = {
   files: string[];

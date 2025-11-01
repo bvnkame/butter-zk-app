@@ -1,5 +1,5 @@
 import { AccountUpdate, fetchAccount, Mina, PrivateKey, PublicKey } from 'o1js';
-import { Add } from '../build/src/Add.js';
+import { Add } from '../contracts/build/src/Add.js';
 
 export const ZKAPP_ADDRESS = 'B62qndLnsHkBtggoG1d9tutYdVasyjQh8wd5xu6uqaWC7CuQo6VFPU6';
 const ZK_ACC_ADDRESS = 'B62qqmSsY9ZtZV7Ug2dQAowDs9xxYTUsQLqEPEXSV7236Z75kCHwfQJ';
